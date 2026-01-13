@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.Text?>
+<StackPane xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1"
+  fx:controller="com.app.librarymanager.controllers.MyFavoriteBooksController">
+  <VBox spacing="10">
+    <padding>
+      <Insets bottom="20" left="20" right="20" top="20"/>
+    </padding>
+    <Text styleClass="content-title" text="My Favorite Books"/>
+    <TextField fx:id="searchField" styleClass="input" promptText="Search Favorite Books..."/>
+    <Label fx:id="searchStatus" styleClass="search-status"/>
+    <ScrollPane fx:id="favoriteScrollPane" hbarPolicy="NEVER" styleClass="scroll-pane"
+      maxWidth="Infinity">
+      <FlowPane fx:id="favoriteBooksFlowPane" styleClass="flow-pane" vgap="10" hgap="10"/>
+    </ScrollPane>
+  </VBox>
+  <VBox fx:id="loadingOverlay" alignment="CENTER" styleClass="loading-wrapper" visible="false"
+    StackPane.alignment="CENTER">
+    <VBox styleClass="loading-inner" alignment="CENTER" maxWidth="200">
+
+      <ProgressIndicator fx:id="loadingSpinner" maxHeight="100" maxWidth="100"/>
+      <Text text="Loading..." fx:id="loadingText"/>
+      <Button text="Cancel" fx:id="cancelButton" styleClass="btn, btn-text"/>
+    </VBox>
+  </VBox>
+</StackPane>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<?import javafx.geometry.Insets?>
+<AnchorPane xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1"
+  fx:controller="com.app.librarymanager.controllers.ManageBookLoansController">
+  <VBox spacing="10" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0"
+    AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+    <Text styleClass="content-title" text="Manage Book Loans"/>
+    <HBox alignment="BOTTOM_LEFT" spacing="10">
+      <HBox alignment="BOTTOM_LEFT" spacing="10">
+        <TextField fx:id="searchField" onKeyReleased="#onSearch" promptText="Search..."
+          styleClass="input"/>
+        <!--        <Button onAction="#onCreateLoan" styleClass="btn,btn-primary" text="New Loan"/>-->
+      </HBox>
+      <Region HBox.hgrow="ALWAYS"/>
+      <ComboBox fx:id="pageSizeInput" prefWidth="100" promptText="Per Page"
+        styleClass="combo-box"/>
+      <Pagination fx:id="pagination" styleClass="pagination"/>
+    </HBox>
+    <TableView fx:id="bookLoansTable" tableMenuButtonVisible="true" VBox.vgrow="ALWAYS">
+      <columns>
+        <TableColumn fx:id="_idColumn" editable="false" text="_id" visible="false"/>
+        <TableColumn fx:id="userIdColumn" editable="false" text="User ID"/>
+        <TableColumn fx:id="userDisplayNameColumn" text="User Display Name"/>
+        <TableColumn fx:id="userAvatarColumn" text="User Avatar"/>
+        <TableColumn fx:id="userEmailColumn" text="User Email"/>
+        <TableColumn fx:id="bookIdColumn" text="Book ID"/>
+        <TableColumn fx:id="bookThumbnailColumn" text="Book Thumbnail"/>
+        <TableColumn fx:id="bookTitleColumn" text="Book Title"/>
+        <TableColumn fx:id="borrowDateColumn" text="Borrow Date"/>
+
+
+        <TableColumn fx:id="dueDateColumn" text="Due Date"/>
+        <TableColumn fx:id="validColumn" text="Valid"/>
+        <TableColumn fx:id="createdAtColumn" text="Created At"/>
+        <TableColumn fx:id="lastUpdatedColumn" text="Last Updated"/>
+      </columns>
+    </TableView>
+  </VBox>
+  <VBox fx:id="loadingOverlay" alignment="CENTER" styleClass="loading-wrapper" visible="false"
+    AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+    AnchorPane.topAnchor="0.0">
+    <VBox styleClass="loading-inner" alignment="CENTER" maxWidth="200">
+
+      <ProgressIndicator fx:id="loadingSpinner" maxHeight="100" maxWidth="100"/>
+      <Text text="Loading..." fx:id="loadingText"/>
+      <Button text="Cancel" fx:id="cancelButton" styleClass="btn, btn-text"/>
+    </VBox>
+  </VBox>
+</AnchorPane>

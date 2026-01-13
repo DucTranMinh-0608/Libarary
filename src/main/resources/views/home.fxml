@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.Text?>
+<StackPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+  fx:controller="com.app.librarymanager.controllers.HomeController">
+  <VBox spacing="20">
+    <Label fx:id="welcomeLabel" text="Welcome to Library Manager" styleClass="title-text"/>
+    <ScrollPane fx:id="homeScrollPane" hbarPolicy="NEVER" fitToWidth="true">
+      <VBox spacing="20">
+        <VBox spacing="10" fx:id="favoriteBooksContainer">
+          <HBox>
+            <Label text="Your Favorite"/>
+            <Region HBox.hgrow="ALWAYS"/>
+          </HBox>
+          <ScrollPane fx:id="favoriteScrollPane" vbarPolicy="NEVER"
+            fitToWidth="true"/>
+        </VBox>
+        <VBox spacing="10">
+          <HBox>
+            <Label text="Top Rated"/>
+            <Region HBox.hgrow="ALWAYS"/>
+          </HBox>
+          <ScrollPane fx:id="topRatedScrollPane" vbarPolicy="NEVER"
+            fitToWidth="true"/>
+        </VBox>
+        <VBox spacing="10">
+          <HBox>
+            <Label text="Top Loans"/>
+            <Region HBox.hgrow="ALWAYS"/>
+          </HBox>
+          <ScrollPane fx:id="topLoansScrollPane" vbarPolicy="NEVER"
+            fitToWidth="true"/>
+        </VBox>
+      </VBox>
+    </ScrollPane>
+    <padding>
+      <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+    </padding>
+  </VBox>
+  <VBox fx:id="loadingOverlay" alignment="CENTER" styleClass="loading-wrapper" visible="false"
+    StackPane.alignment="CENTER">
+    <Text text="Logging in..." fx:id="loadingText"/>
+    <ProgressIndicator fx:id="loadingSpinner" maxHeight="100" maxWidth="100"/>
+    <Button text="Cancel" fx:id="cancelButton" styleClass="btn, btn-text"/>
+  </VBox>
+
+</StackPane>

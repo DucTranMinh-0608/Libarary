@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.Text?>
+<VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+  fx:controller="com.app.librarymanager.controllers.SearchController" spacing="10">
+  <TextField fx:id="searchInput" promptText="Search" styleClass="input"/>
+  <Text fx:id="searchStatus" styleClass="search-status"/>
+  <ScrollPane fx:id="searchResultsScrollPane" styleClass="scroll-pane" hbarPolicy="NEVER">
+    <FlowPane maxWidth="Infinity" fx:id="searchResultsPane" styleClass="search-results" vgap="10" hgap="10"/>
+  </ScrollPane>
+  <padding>
+    <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+  </padding>
+</VBox>

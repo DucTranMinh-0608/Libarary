@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Text?>
+
+
+<?import javafx.geometry.Insets?>
+<AnchorPane xmlns="http://javafx.com/javafx"
+  xmlns:fx="http://javafx.com/fxml"
+  fx:controller="com.app.librarymanager.controllers.ManageCategoriesController">
+  <VBox spacing="10" AnchorPane.topAnchor="10.0" AnchorPane.leftAnchor="10.0"
+    AnchorPane.rightAnchor="10.0" AnchorPane.bottomAnchor="10.0">
+    <Text styleClass="content-title" text="Manage Categories"/>
+    <HBox alignment="BOTTOM_LEFT" spacing="10">
+      <TextField fx:id="searchField" onKeyReleased="#onSearch" promptText="Search..."
+        styleClass="input"/>
+<!--      <Button text="New Category" onAction="#onCreateCategory" styleClass="btn,btn-primary"/>-->
+      <Region HBox.hgrow="ALWAYS"/>
+      <Text fx:id="paginationInfo" strokeType="OUTSIDE" strokeWidth="0.0"/>
+      <ComboBox fx:id="pageSize" promptText="pageSize" styleClass="combo-box">
+      </ComboBox>
+      <Button mnemonicParsing="false" text="Previous" onAction="#prevPage" fx:id="prevBtn"
+        styleClass="btn, btn-default"/>
+      <Button mnemonicParsing="false" text="Next" onAction="#nextPage" fx:id="nextBtn"
+        styleClass="btn, btn-default"/>
+    </HBox>
+    <Separator styleClass="h-separator"/>
+    <HBox alignment="BOTTOM_LEFT" spacing="10">
+      <TextField fx:id="nameField" promptText="Category Name" styleClass="input"/>
+      <Button fx:id="addBtn" text="Create" styleClass="btn,btn-primary"/>
+    </HBox>
+    <TableView fx:id="bookLoansTable" tableMenuButtonVisible="true" VBox.vgrow="ALWAYS">
+      <columns>
+        <TableColumn fx:id="_idColumn" text="_id"/>
+        <TableColumn fx:id="nameColumn" text="Name"/>
+        <TableColumn fx:id="createdAtColumn" text="Created At"/>
+        <TableColumn fx:id="updatedAtColumn" text="Updated At"/>
+      </columns>
+    </TableView>
+  </VBox>
+  <VBox fx:id="loadingOverlay" alignment="CENTER" styleClass="loading-wrapper" visible="false"
+    AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+    AnchorPane.rightAnchor="0.0">
+    <VBox styleClass="loading-inner" alignment="CENTER" maxWidth="200">
+
+      <ProgressIndicator fx:id="loadingSpinner" maxHeight="100" maxWidth="100"/>
+      <Text text="Loading..." fx:id="loadingText"/>
+      <Button text="Cancel" fx:id="cancelButton" styleClass="btn, btn-text"/>
+    </VBox>
+  </VBox>
+</AnchorPane>

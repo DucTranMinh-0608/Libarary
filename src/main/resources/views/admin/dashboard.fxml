@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import org.kordamp.ikonli.javafx.*?>
+
+<?import javafx.geometry.Insets?>
+<AnchorPane xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1"
+  fx:controller="com.app.librarymanager.controllers.AdminDashboardController">
+
+  <VBox spacing="20" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0"
+    AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
+    <Text styleClass="content-title" text="Dashboard"/>
+    <ScrollPane fx:id="adminScrollPane" hbarPolicy="NEVER">
+      <VBox spacing="20">
+        <VBox spacing="10">
+          <Text styleClass="content-subtitle" text="Overview"/>
+          <FlowPane fx:id="adminFlowPane" hgap="20" vgap="20">
+            <HBox alignment="CENTER_RIGHT" spacing="30.0" styleClass="card">
+              <StackPane>
+                <Region styleClass="icon-background"/>
+                <FontIcon fill="#3b82f6" iconLiteral="anto-read" iconSize="36"
+                  styleClass="card-icon"/>
+              </StackPane>
+              <VBox HBox.hgrow="ALWAYS">
+                <Text styleClass="card-title" text="Total Books"/>
+                <Text fx:id="totalBooksCount" styleClass="card-content" text="-"/>
+              </VBox>
+            </HBox>
+
+            <HBox alignment="CENTER_RIGHT" spacing="30.0" styleClass="card">
+              <StackPane>
+                <Region styleClass="icon-background"/>
+                <FontIcon fill="#3b82f6" iconLiteral="anto-check-circle" iconSize="36"
+                  styleClass="card-icon"/>
+              </StackPane>
+              <VBox HBox.hgrow="ALWAYS">
+                <Text styleClass="card-title" text="Active Books"/>
+                <Text fx:id="activeBooksCount" styleClass="card-content" text="-"/>
+              </VBox>
+            </HBox>
+
+            <HBox alignment="CENTER_RIGHT" spacing="30.0" styleClass="card">
+              <StackPane>
+                <Region styleClass="icon-background"/>
+                <FontIcon fill="#3b82f6" iconLiteral="anto-team" iconSize="36"
+                  styleClass="card-icon"/>
+              </StackPane>
+              <VBox HBox.hgrow="ALWAYS">
+                <Text styleClass="card-title" text="Total Users"/>
+                <Text fx:id="totalUsersCount" styleClass="card-content" text="-"/>
+              </VBox>
+            </HBox>
+
+            <HBox alignment="CENTER_RIGHT" spacing="30.0" styleClass="card">
+              <StackPane>
+                <Region styleClass="icon-background"/>
+                <FontIcon fill="#3b82f6" iconLiteral="anto-apartment" iconSize="36"
+                  styleClass="card-icon"/>
+              </StackPane>
+              <VBox HBox.hgrow="ALWAYS">
+                <Text styleClass="card-title" text="Total Categories"/>
+                <Text fx:id="totalCategoriesCount" styleClass="card-content" text="-"/>
+              </VBox>
+            </HBox>
+          </FlowPane>
+        </VBox>
+        <GridPane hgap="10" vgap="10">
+          <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES"/>
+            <ColumnConstraints hgrow="SOMETIMES"/>
+          </columnConstraints>
+          <rowConstraints>
+            <RowConstraints vgrow="SOMETIMES"/>
+          </rowConstraints>
+          <VBox GridPane.columnIndex="0" GridPane.rowIndex="0">
+            <Text styleClass="content-subtitle" text="Top Lent Books"/>
+            <ListView fx:id="topLentBooksList" maxHeight="700" maxWidth="Infinity" minHeight="300"
+              prefHeight="500"/>
+          </VBox>
+          <VBox GridPane.columnIndex="1" GridPane.rowIndex="0">
+            <Text styleClass="content-subtitle" text="Recent Loans"/>
+            <ListView fx:id="recentLoans" maxHeight="700" maxWidth="Infinity"
+              minHeight="300" prefHeight="500"/>
+          </VBox>
+        </GridPane>
+      </VBox>
+    </ScrollPane>
+  </VBox>
+
+  <VBox fx:id="loadingOverlay" alignment="CENTER" styleClass="loading-wrapper" visible="false"
+    AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+    AnchorPane.topAnchor="0.0">
+    <VBox styleClass="loading-inner" alignment="CENTER" maxWidth="200">
+
+      <ProgressIndicator fx:id="loadingSpinner" maxHeight="100" maxWidth="100"/>
+      <Text text="Loading..." fx:id="loadingText"/>
+      <Button text="Cancel" fx:id="cancelButton" styleClass="btn, btn-text"/>
+    </VBox>
+  </VBox>
+</AnchorPane>

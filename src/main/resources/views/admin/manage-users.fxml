@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/17.0.6" xmlns:fx="http://javafx.com/fxml/1"
+  fx:controller="com.app.librarymanager.controllers.ManageUsersController">
+  <VBox spacing="10" AnchorPane.topAnchor="10.0" AnchorPane.leftAnchor="10.0"
+    AnchorPane.rightAnchor="10.0" AnchorPane.bottomAnchor="10.0">
+    <Text styleClass="content-title" text="Manage Users"/>
+    <HBox alignment="BOTTOM_LEFT" spacing="10">
+      <TextField fx:id="searchField" onKeyReleased="#onSearch" promptText="Search..."
+        styleClass="input"/>
+      <VBox alignment="BOTTOM_LEFT" spacing="5">
+        <Label text="Admin:"/>
+        <ComboBox fx:id="adminFilter" promptText="Admin" styleClass="combo-box">
+        </ComboBox>
+      </VBox>
+      <VBox alignment="BOTTOM_LEFT" spacing="5">
+        <Label text="Email Verified:"/>
+        <ComboBox fx:id="emailVerifiedFilter" promptText="Email Verified" styleClass="combo-box">
+        </ComboBox>
+      </VBox>
+      <VBox alignment="BOTTOM_LEFT" spacing="5">
+        <Label text="Disabled:"/>
+        <ComboBox fx:id="disabledFilter" promptText="Disabled" styleClass="combo-box">
+        </ComboBox>
+      </VBox>
+      <Button text="Create User" onAction="#onCreateUser" styleClass="btn,btn-primary"/>
+      <Region HBox.hgrow="ALWAYS"/>
+      <Text fx:id="totalUsersText"/>
+    </HBox>
+    <TableView fx:id="usersTable" tableMenuButtonVisible="true" VBox.vgrow="ALWAYS">
+      <columns>
+        <TableColumn fx:id="uidColumn" editable="false" text="UID"/>
+        <TableColumn fx:id="photoUrlColumn" editable="false" text="Avatar"/>
+        <TableColumn fx:id="emailColumn" editable="false" text="Email"/>
+        <TableColumn fx:id="displayNameColumn" text="Display Name"/>
+        <TableColumn fx:id="phoneNumberColumn" text="Phone Number"/>
+        <TableColumn fx:id="birthdayColumn" text="Birthday"/>
+        <TableColumn fx:id="adminColumn" text="Admin"/>
+        <TableColumn fx:id="emailVerifiedColumn" text="Email Verified"/>
+        <TableColumn fx:id="disabledColumn" text="Disabled"/>
+        <TableColumn fx:id="createdAtColumn" editable="false" text="Created At"/>
+        <TableColumn fx:id="updatedAtColumn" editable="false" text="Updated At"/>
+        <TableColumn fx:id="lastLoginAtColumn" editable="false" text="Last Login At"/>
+      </columns>
+    </TableView>
+  </VBox>
+  <VBox fx:id="loadingOverlay" alignment="CENTER" styleClass="loading-wrapper" visible="false"
+    AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+    AnchorPane.topAnchor="0.0"
+  >
+    <VBox styleClass="loading-inner" alignment="CENTER" maxWidth="200">
+      <ProgressIndicator fx:id="loadingSpinner" maxHeight="100" maxWidth="100"/>
+      <Text text="Loading..." fx:id="loadingText"/>
+      <Button text="Cancel" fx:id="cancelButton" styleClass="btn, btn-text"/>
+    </VBox>
+  </VBox>
+</AnchorPane>

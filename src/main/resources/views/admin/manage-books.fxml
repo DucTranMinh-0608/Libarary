@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<?import javafx.geometry.Insets?>
+<AnchorPane xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1"
+  fx:controller="com.app.librarymanager.controllers.ManageBooksController">
+  <VBox spacing="10" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0"
+    AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+    <Text styleClass="content-title" text="Manage Books"/>
+    <HBox alignment="BOTTOM_LEFT" spacing="10">
+      <TextField fx:id="searchField" onKeyReleased="#onSearch" promptText="Search..."
+        styleClass="input"/>
+      <VBox alignment="BOTTOM_LEFT" spacing="5">
+        <Label text="Active:"/>
+        <ComboBox fx:id="activeFilter" promptText="Active" styleClass="combo-box"></ComboBox>
+      </VBox>
+      <Button onAction="#onCreateBook" styleClass="btn,btn-primary" text="New Book"/>
+      <Region HBox.hgrow="ALWAYS"/>
+      <Text fx:id="paginationInfo" strokeType="OUTSIDE" strokeWidth="0.0"/>
+      <ComboBox fx:id="pageSize" promptText="pageSize" styleClass="combo-box">
+      </ComboBox>
+      <Button mnemonicParsing="false" text="Previous" onAction="#prevPage" fx:id="prevBtn"
+        styleClass="btn, btn-default"/>
+      <Button mnemonicParsing="false" text="Next" onAction="#nextPage" fx:id="nextBtn"
+        styleClass="btn, btn-default"/>
+    </HBox>
+    <TableView fx:id="booksTable" tableMenuButtonVisible="true" VBox.vgrow="ALWAYS">
+      <columns>
+        <TableColumn fx:id="_idColumn" editable="false" text="_id" visible="false"/>
+        <TableColumn fx:id="idColumn" editable="false" text="ID"/>
+        <TableColumn fx:id="iSBNColumn" text="ISBN"/>
+        <TableColumn fx:id="thumbnailColumn" text="Thumbnail"/>
+        <TableColumn fx:id="titleColumn" editable="false" text="Title"/>
+        <TableColumn fx:id="descriptionColumn" text="Description"/>
+        <TableColumn fx:id="publisherColumn" editable="false" text="Publisher"/>
+        <TableColumn fx:id="authorsColumn" editable="false" text="Authors"/>
+        <TableColumn fx:id="categoriesColumn" text="Categories"/>
+        <TableColumn fx:id="priceColumn" text="Price"/>
+        <TableColumn fx:id="discountPriceColumn" text="Discount Price"/>
+        <TableColumn fx:id="currencyCodeColumn" text="Currency"/>
+        <TableColumn fx:id="pageCountColumn" text="Pages"/>
+        <TableColumn fx:id="languageColumn" text="Language"/>
+        <TableColumn fx:id="isActiveColumn" text="Active"/>
+        <TableColumn fx:id="publishedDateColumn" editable="false" text="Published At"/>
+      </columns>
+    </TableView>
+  </VBox>
+  <VBox fx:id="loadingOverlay" alignment="CENTER" styleClass="loading-wrapper" visible="false"
+    AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+    AnchorPane.topAnchor="0.0">
+    <VBox styleClass="loading-inner" alignment="CENTER" maxWidth="200">
+
+      <ProgressIndicator fx:id="loadingSpinner" maxHeight="100" maxWidth="100"/>
+      <Text text="Loading..." fx:id="loadingText"/>
+      <Button text="Cancel" fx:id="cancelButton" styleClass="btn, btn-text"/>
+    </VBox>
+  </VBox>
+</AnchorPane>

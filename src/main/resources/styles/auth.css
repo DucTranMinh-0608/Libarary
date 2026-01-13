@@ -1,0 +1,51 @@
+
+#authWrapper {
+  -fx-background-color: -fx-bg;
+  -fx-padding: 0;
+}
+
+Label {
+  -fx-font-size: 14px;
+  -fx-font-family: "Poppins";
+  -fx-text-fill: -fx-label;
+}
+
+Hyperlink {
+  -fx-font-size: 14px;
+  -fx-border-style: none;
+  -fx-border-width: 0;
+  -fx-underline: false;
+}
+
+Hyperlink:visited {
+  -fx-text-fill: -fx-primary;
+}
+
+Hyperlink:pressed {
+  -fx-text-fill: -fx-primary;
+}
+
+Hyperlink:focused {
+  -fx-text-fill: -fx-primary;
+}
+
+.anchor-pane {
+  -fx-padding: 0;
+}
+
+.full-width-button {
+  -fx-max-width: 240px;
+  -fx-min-width: 240px;
+  -fx-padding: 10;
+  -fx-background-color: #4285F4;
+  -fx-text-fill: white;
+  -fx-font-size: 14px;
+}
+.full-width-button Label {
+  -fx-font-size: 14px;
+  -fx-text-fill: white;
+}
+.full-width-button FontIcon {
+  -fx-text-fill: white;
+  -fx-fill: white;
+}

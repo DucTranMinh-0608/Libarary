@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+
+<?import javafx.scene.shape.Rectangle?>
+<StackPane styleClass="book-detail-container" xmlns="http://javafx.com/javafx/17.0.12"
+  xmlns:fx="http://javafx.com/fxml/1"
+  fx:controller="com.app.librarymanager.controllers.BookDetailController">
+  <VBox spacing="10">
+    <padding>
+      <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+    </padding>
+
+    <HBox alignment="CENTER_LEFT">
+      <Button fx:id="closeBtn" onAction="#close" styleClass="btn, btn-text">
+        <graphic>
+          <HBox alignment="CENTER" spacing="5">
+            <FontIcon iconLiteral="anto-left" iconSize="16"/>
+            <Text text="Back" styleClass="btn-text"/>
+          </HBox>
+        </graphic>
+      </Button>
+    </HBox>
+    <HBox alignment="CENTER" maxWidth="Infinity">
+      <ScrollPane hbarPolicy="NEVER" maxWidth="Infinity">
+        <VBox alignment="CENTER" maxWidth="Infinity" fx:id="detailContainer">
+          <HBox spacing="10" alignment="CENTER" maxWidth="Infinity">
+            <ImageView fx:id="bookCover" fitHeight="500" preserveRatio="true"/>
+            <VBox spacing="5" styleClass="book-content">
+              <HBox spacing="3" alignment="CENTER_LEFT">
+                <Label fx:id="bookLanguage" styleClass="chip"/>
+                <Label fx:id="bookTitle" styleClass="book-title" wrapText="true"/>
+              </HBox>
+              <HBox fx:id="starsContainer" alignment="CENTER_LEFT">
+              </HBox>
+              <HBox alignment="CENTER_LEFT" spacing="5">
+                 <Text text="Your Rating: " styleClass="text-bold"/>
+                 <HBox fx:id="userRatingContainer" alignment="CENTER_LEFT" spacing="2"/>
+              </HBox>
+              <Label fx:id="bookAuthor" styleClass="book-author"/>
+              <Label fx:id="bookPublishingInfo" styleClass="book-publishing-info" wrapText="true"/>
+
+              <!--            <Label fx:id="bookIsbn" styleClass="book-isbn"/>-->
+              <HBox spacing="5">
+                <Text text="Categories:"/>
+                <FlowPane fx:id="bookCategories" styleClass="book-categories" hgap="5"/>
+              </HBox>
+              <Label text="Description:"/>
+              <TextArea editable="false" fx:id="bookDescription" styleClass="book-description"
+                wrapText="true"/>
+              <HBox spacing="3" alignment="CENTER_LEFT">
+                <padding>
+                  <Insets top="10.0" bottom="10.0"/>
+                </padding>
+                <Text fx:id="bookPrice" styleClass="book-price"/>
+                <Text fx:id="bookDiscountPrice" styleClass="book-discount-price"/>
+                <Text fx:id="currencyCode" styleClass="currency"/>
+              </HBox>
+              <HBox spacing="5">
+                <Button fx:id="borrowEBook" styleClass="btn, btn-primary" text="Borrow E-Book"/>
+                <Button fx:id="addToFavorite" styleClass="btn, btn-icon, heart">
+                  <graphic>
+                    <FontIcon iconLiteral="anto-heart" iconSize="20"/>
+                  </graphic>
+                </Button>
+              </HBox>
+            </VBox>
+          </HBox>
+          <VBox spacing="10" maxWidth="Infinity">
+            <Label text="Comments"/>
+            <ListView fx:id="commentsContainer" maxWidth="Infinity" styleClass="comment-container"/>
+            <Label fx:id="emptyComments" text="No comments yet" visible="false"/>
+            <HBox spacing="10">
+              <TextArea fx:id="newCommentTextArea" promptText="Type your sharing here..."
+                wrapText="true"
+                HBox.hgrow="ALWAYS" prefHeight="100" maxHeight="100"/>
+              <Button fx:id="addCommentButton" text="Add Comment" styleClass="btn, btn-primary"/>
+            </HBox>
+          </VBox>
+        </VBox>
+      </ScrollPane>
+    </HBox>
+  </VBox>
+
+  <VBox fx:id="loadingOverlay" alignment="CENTER" styleClass="loading-wrapper" visible="false"
+    StackPane.alignment="CENTER">
+    <Text fx:id="loadingText" text="Loading..."/>
+    <ProgressIndicator fx:id="loadingSpinner" maxHeight="100" maxWidth="100"/>
+    <Button fx:id="cancelButton" styleClass="btn, btn-text" text="Cancel"/>
+  </VBox>
+</StackPane>

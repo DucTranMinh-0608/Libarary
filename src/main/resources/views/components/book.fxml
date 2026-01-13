@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.text.Text?>
+<VBox fx:id="bookContainer" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+  fx:controller="com.app.librarymanager.controllers.BookComponentController" styleClass="book-item">
+  <ImageView fx:id="bookCover" fitWidth="180" preserveRatio="true"/>
+  <TextField fx:id="id" visible="false" managed="false"/>
+  <VBox styleClass="book-content">
+    <Label fx:id="bookTitle" styleClass="book-title" wrapText="true"/>
+    <Label fx:id="bookAuthor" styleClass="book-author" wrapText="true"/>
+  </VBox>
+</VBox>
