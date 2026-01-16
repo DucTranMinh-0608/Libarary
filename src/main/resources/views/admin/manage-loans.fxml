@@ -36,6 +36,7 @@
 
         <TableColumn fx:id="dueDateColumn" text="Due Date"/>
         <TableColumn fx:id="validColumn" text="Valid"/>
+        <TableColumn fx:id="typeColumn" text="Type"/>
         <TableColumn fx:id="createdAtColumn" text="Created At"/>
         <TableColumn fx:id="lastUpdatedColumn" text="Last Updated"/>
       </columns>

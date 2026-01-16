@@ -13,7 +13,7 @@
     <Text styleClass="content-title" text="My Favorite Books"/>
     <TextField fx:id="searchField" styleClass="input" promptText="Search Favorite Books..."/>
     <Label fx:id="searchStatus" styleClass="search-status"/>
-    <ScrollPane fx:id="favoriteScrollPane" hbarPolicy="NEVER" styleClass="scroll-pane"
+    <ScrollPane fx:id="favoriteScrollPane" hbarPolicy="NEVER" vbarPolicy="ALWAYS" styleClass="scroll-pane"
       maxWidth="Infinity">
       <FlowPane fx:id="favoriteBooksFlowPane" styleClass="flow-pane" vgap="10" hgap="10"/>
     </ScrollPane>

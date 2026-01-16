@@ -837,17 +837,49 @@ Button {
 
 .scroll-pane {
   -fx-background-color: -fx-bg;
+  background-color: -fx-bg;
   -fx-border-width: 0;
 }
 
 .scroll-pane .viewport {
   -fx-background-color: -fx-bg;
+  background-color: -fx-bg;
+}
+
+.scroll-pane>.scroll-bar:vertical,
+.scroll-pane>.scroll-bar:horizontal {
+  -fx-background-color: transparent;
+}
+
+.scroll-pane>.scroll-bar>.thumb {
+  -fx-background-color: -fx-fg-secondary;
+  -fx-background-insets: 2;
+  -fx-background-radius: 10;
+}
+
+.scroll-pane>.scroll-bar>.thumb:hover {
+  -fx-background-color: -fx-primary-light;
+}
+
+.scroll-pane>.scroll-bar>.increment-button,
+.scroll-pane>.scroll-bar>.decrement-button {
+  -fx-padding: 0;
+  -fx-background-color: transparent;
+}
+
+.scroll-pane>.scroll-bar>.increment-arrow,
+.scroll-pane>.scroll-bar>.decrement-arrow {
+  -fx-shape: "";
+  -fx-padding: 0;
 }
 
 .book-item {
   -fx-background-color: -fx-bg-light;
+  background-color: -fx-bg-light;
   -fx-border-radius: 5;
+  border-radius: 5;
   -fx-background-radius: 5;
+  background-radius: 5;
   -fx-border-width: 1;
   -fx-border-color: -fx-fg-secondary;
   -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.02), 8, 0, 0, 0);
@@ -869,6 +901,7 @@ Button {
 
 .book-item .book-content {
   -fx-padding: 10;
+  padding: 10;
 }
 
 .book-item .book-content .book-title {
@@ -1030,4 +1063,10 @@ Button {
   -fx-padding: 10;
   -fx-border-radius: 5;
   -fx-background-radius: 5;
+}
+
+.stock-info {
+  -fx-font-size: 14px;
+  -fx-fill: -fx-muted;
+  -fx-font-weight: bold;
 }

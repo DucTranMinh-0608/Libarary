@@ -9,7 +9,7 @@
   fx:controller="com.app.librarymanager.controllers.SearchController" spacing="10">
   <TextField fx:id="searchInput" promptText="Search" styleClass="input"/>
   <Text fx:id="searchStatus" styleClass="search-status"/>
-  <ScrollPane fx:id="searchResultsScrollPane" styleClass="scroll-pane" hbarPolicy="NEVER">
+  <ScrollPane fx:id="searchResultsScrollPane" styleClass="scroll-pane" hbarPolicy="NEVER" vbarPolicy="ALWAYS">
     <FlowPane maxWidth="Infinity" fx:id="searchResultsPane" styleClass="search-results" vgap="10" hgap="10"/>
   </ScrollPane>
   <padding>

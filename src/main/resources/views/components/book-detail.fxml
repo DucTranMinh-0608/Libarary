@@ -28,7 +28,7 @@
       </Button>
     </HBox>
     <HBox alignment="CENTER" maxWidth="Infinity">
-      <ScrollPane hbarPolicy="NEVER" maxWidth="Infinity">
+      <ScrollPane hbarPolicy="NEVER" vbarPolicy="ALWAYS" maxWidth="Infinity">
         <VBox alignment="CENTER" maxWidth="Infinity" fx:id="detailContainer">
           <HBox spacing="10" alignment="CENTER" maxWidth="Infinity">
             <ImageView fx:id="bookCover" fitHeight="500" preserveRatio="true"/>
@@ -62,13 +62,15 @@
                 <Text fx:id="bookDiscountPrice" styleClass="book-discount-price"/>
                 <Text fx:id="currencyCode" styleClass="currency"/>
               </HBox>
-              <HBox spacing="5">
+              <HBox spacing="5" alignment="CENTER_LEFT">
                 <Button fx:id="borrowEBook" styleClass="btn, btn-primary" text="Borrow E-Book"/>
+                <Button fx:id="borrowPhysicalBook" styleClass="btn, btn-primary" text="Borrow Physical Book"/>
                 <Button fx:id="addToFavorite" styleClass="btn, btn-icon, heart">
                   <graphic>
                     <FontIcon iconLiteral="anto-heart" iconSize="20"/>
                   </graphic>
                 </Button>
+                <Text fx:id="physicalCopiesText" styleClass="stock-info"/>
               </HBox>
             </VBox>
           </HBox>

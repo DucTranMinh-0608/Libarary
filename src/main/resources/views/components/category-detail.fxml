@@ -30,7 +30,7 @@
       <Text fx:id="categoryTitle" styleClass="content-title"/>
       <Text fx:id="categoryDescription" styleClass="content-description"/>
     </VBox>
-    <ScrollPane fx:id="categoryDetailScrollPane" hbarPolicy="NEVER" maxWidth="Infinity">
+    <ScrollPane fx:id="categoryDetailScrollPane" hbarPolicy="NEVER" vbarPolicy="ALWAYS" maxWidth="Infinity">
       <FlowPane fx:id="categoryDetailFlowPane" styleClass="flow-pane" vgap="10" hgap="10"/>
     </ScrollPane>
   </VBox>

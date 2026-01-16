@@ -98,6 +98,10 @@ public class BookDetailController extends ControllerWithLoader {
   @FXML
   private Button borrowEBook;
   @FXML
+  private Button borrowPhysicalBook;
+  @FXML
+  private Text physicalCopiesText;
+  @FXML
   private ListView<ReturnUserComment> commentsContainer;
   @FXML
   private TextArea newCommentTextArea;
@@ -115,6 +119,7 @@ public class BookDetailController extends ControllerWithLoader {
   private void initialize() {
     showCancel(false);
     borrowEBook.setOnAction(event -> handleBorrowEBook());
+    borrowPhysicalBook.setOnAction(event -> handleBorrowPhysicalBook());
     addToFavorite.setOnAction(event -> handleAddToFavorite());
 //    detailContainer.setVisible(false);
     addCommentButton.setOnAction(e -> handleAddComment());
@@ -156,18 +161,21 @@ public class BookDetailController extends ControllerWithLoader {
         double avgRating = BookRatingController.averageRating(id);
         commentList = CommentController.getAllCommentOfBook(id);
 
-
-
         BookRating searchRating = new BookRating();
         searchRating.setBookId(id);
         searchRating.setUserId(AuthController.getInstance().getCurrentUser().getUid());
         Document ratingDoc = BookRatingController.findRating(searchRating);
         double userRating = ratingDoc != null ? ratingDoc.getDouble("rate") : 0.0;
+
+        Document copyDoc = BookCopiesController.findCopy(new BookCopies(id));
+        int physicalCopies = copyDoc != null ? copyDoc.getInteger("copies") : 0;
+
         return Map.of(
             "book", b,
             "isFavorite", isFavorite,
             "avgRating", avgRating,
-            "userRating", userRating
+            "userRating", userRating,
+            "physicalCopies", physicalCopies
         );
       }
     };
@@ -183,7 +191,8 @@ public class BookDetailController extends ControllerWithLoader {
         isFavorite = (boolean) result.get("isFavorite");
         double avgRating = (double) result.get("avgRating");
         double userRating = (double) result.get("userRating");
-        updateBookDetailsUI(book, avgRating, userRating);
+        int physicalCopies = (int) result.get("physicalCopies");
+        updateBookDetailsUI(book, avgRating, userRating, physicalCopies);
       });
 
       new Thread(() -> loadCommentsInBatches(commentList)).start();
@@ -198,7 +207,7 @@ public class BookDetailController extends ControllerWithLoader {
     new Thread(task).start();
   }
 
-  private void updateBookDetailsUI(Book book, double avgRating, double userRating) {
+  private void updateBookDetailsUI(Book book, double avgRating, double userRating, int physicalCopies) {
     if (book == null) {
       AlertDialog.showAlert("error", "Book not found", "No details available for this book.", null);
       return;
@@ -225,11 +234,17 @@ public class BookDetailController extends ControllerWithLoader {
     if (!book.isActivated()) {
       detailContainer.setStyle("-fx-opacity: 0.5;");
       borrowEBook.setDisable(true);
+      borrowPhysicalBook.setDisable(true);
       addToFavorite.setDisable(true);
       newCommentTextArea.setDisable(true);
       addCommentButton.setDisable(true);
       AlertDialog.showAlert("warning", "Book is inactive",
           "This book is currently inactive and cannot be borrowed", null);
+    }
+
+    physicalCopiesText.setText("Stock: " + physicalCopies);
+    if (physicalCopies <= 0) {
+      borrowPhysicalBook.setDisable(true);
     }
 
     for (int i = 0; i < 5; i++) {
@@ -321,10 +336,10 @@ public class BookDetailController extends ControllerWithLoader {
           }
           Document doc = BookLoanController.addLoan(bookLoan);
           if (doc != null) {
-            AlertDialog.showAlert("success", "E-Book Borrowed",
+            AlertDialog.showAlert("success", "E-Book Borrowed Successfully",
                 "You have successfully borrowed the E-Book", null);
           } else {
-            AlertDialog.showAlert("error", "Failed to borrow E-Book",
+            AlertDialog.showAlert("error", "Failed to Borrow E-Book",
                 "An error occurred while borrowing the E-Book", null);
           }
         });
@@ -337,8 +352,65 @@ public class BookDetailController extends ControllerWithLoader {
     task.setOnFailed(event -> {
       showLoading(false);
       task.getException().printStackTrace();
-      AlertDialog.showAlert("error", "Failed to borrow E-Book",
+      AlertDialog.showAlert("error", "Failed to Borrow E-Book",
           "An error occurred while borrowing the E-Book", null);
+    });
+    new Thread(task).start();
+  }
+
+  private void handleBorrowPhysicalBook() {
+    System.out.println("Borrowing Physical Book");
+    Task<Void> task = new Task<>() {
+      @Override
+      protected Void call() {
+        Platform.runLater(() -> {
+          Document copyDoc = BookCopiesController.findCopy(new BookCopies(book.getId()));
+          int physicalCopies = copyDoc != null ? copyDoc.getInteger("copies") : 0;
+
+          if (physicalCopies <= 0) {
+            AlertDialog.showAlert("error", "Out of Stock",
+                "This physical book is currently out of stock", null);
+            borrowPhysicalBook.setDisable(true);
+            return;
+          }
+
+          LocalDate borrowDate = LocalDate.now();
+          LocalDate dueDate = borrowDate.plusDays(14); // 2 weeks for physical loan
+          BookLoan bookLoan = new BookLoan(AuthController.getInstance().getCurrentUser().getUid(),
+              book.getId(), borrowDate, dueDate, 1);
+          bookLoan.setType(BookLoan.Mode.OFFLINE);
+
+          boolean confirm = AlertDialog.showConfirm("Confirm Book Borrowing",
+              "Are you sure you want to borrow this physical book?");
+          if (!confirm) {
+            return;
+          }
+
+          Document doc = BookLoanController.addLoan(bookLoan);
+          if (doc != null) {
+            AlertDialog.showAlert("success", "Book Borrowed Successfully",
+                "Book borrowed successfully, please come to the counter to pick it up",
+                null);
+            physicalCopiesText.setText("Stock: " + (physicalCopies - 1));
+            if (physicalCopies - 1 <= 0) {
+              borrowPhysicalBook.setDisable(true);
+            }
+          } else {
+            AlertDialog.showAlert("error", "Failed to borrow Physical Book",
+                "An error occurred while borrowing the physical book", null);
+          }
+        });
+        return null;
+      }
+    };
+    setLoadingText("Borrowing Physical Book...");
+    task.setOnRunning(event -> showLoading(true));
+    task.setOnSucceeded(event -> showLoading(false));
+    task.setOnFailed(event -> {
+      showLoading(false);
+      task.getException().printStackTrace();
+      AlertDialog.showAlert("error", "Failed to borrow Physical Book",
+          "An error occurred while borrowing the physical book", null);
     });
     new Thread(task).start();
   }

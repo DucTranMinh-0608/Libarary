@@ -12,7 +12,7 @@
   <VBox spacing="20" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0"
     AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
     <Text styleClass="content-title" text="Dashboard"/>
-    <ScrollPane fx:id="adminScrollPane" hbarPolicy="NEVER">
+    <ScrollPane fx:id="adminScrollPane" hbarPolicy="NEVER" vbarPolicy="ALWAYS">
       <VBox spacing="20">
         <VBox spacing="10">
           <Text styleClass="content-subtitle" text="Overview"/>

@@ -54,6 +54,8 @@ public class MyLoansController extends ControllerWithLoader {
   @FXML
   private ComboBox<String> validityFilter;
   @FXML
+  private ComboBox<String> modeFilter;
+  @FXML
   private ComboBox<Integer> pageSize;
   @FXML
   private Button prevPageButton;
@@ -116,6 +118,14 @@ public class MyLoansController extends ControllerWithLoader {
       validity = newValue;
       loadLoans();
     });
+
+    modeFilter.getItems().addAll("All", "Online", "Offline");
+    modeFilter.setValue(mode);
+    modeFilter.valueProperty().addListener((observable, oldValue, newValue) -> {
+      currentPage = 0;
+      mode = newValue;
+      loadLoans();
+    });
   }
 
   private void loadLoans() {
@@ -125,8 +135,8 @@ public class MyLoansController extends ControllerWithLoader {
         User currentUser = AuthController.getInstance().getCurrentUser();
         boolean isValid = "Valid".equals(validity) || "All".equals(validity);
         boolean isNotValid = "Invalid".equals(validity) || "All".equals(validity);
-        boolean isOnline = true;
-        boolean isOffline = false;
+        boolean isOnline = "Online".equals(mode) || "All".equals(mode);
+        boolean isOffline = "Offline".equals(mode) || "All".equals(mode);
         totalResults = (int) BookLoanController.countLoanWithFilterOfUser(currentUser.getUid(),
             isValid, isNotValid, isOnline,
             isOffline);
@@ -213,16 +223,25 @@ public class MyLoansController extends ControllerWithLoader {
     valid.setText(loan.isValid() ? "Valid" : "Expired");
     valid.getStyleClass().add("chip");
     valid.getStyleClass().add(loan.isValid() ? "success" : "danger");
-    HBox chips = new HBox(valid);
+    type.setText(loan.getType().name());
+    type.getStyleClass().addAll("chip", loan.getType().name().toLowerCase());
+    HBox chips = new HBox(valid, type);
 
     Region spacer = new Region();
     VBox.setVgrow(spacer, Priority.ALWAYS);
 
     if (loan.isValid()) {
-      returnButton.setVisible(true);
+      // Only allow online books to be returned by users
+      // Physical books must be returned at the counter (admin will update)
+      if (Mode.ONLINE.equals(loan.getType())) {
+        returnButton.setVisible(true);
+        returnButton.setOnAction(event -> handleReturnBook(item));
+      } else {
+        returnButton.setVisible(false);
+        returnButton.setManaged(false);
+      }
       reBorrowButton.setVisible(false);
       reBorrowButton.setManaged(false);
-      returnButton.setOnAction(event -> handleReturnBook(item));
     } else {
       returnButton.setVisible(false);
       returnButton.setManaged(false);

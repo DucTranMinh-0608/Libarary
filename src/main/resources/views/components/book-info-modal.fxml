@@ -110,6 +110,10 @@
               GridPane.rowIndex="8" GridPane.valignment="TOP"/>
             <CheckBox fx:id="isActiveCheckBox" GridPane.columnIndex="1" GridPane.halignment="LEFT"
               GridPane.rowIndex="8" GridPane.valignment="TOP"/>
+
+            <Label text="Copies" GridPane.columnIndex="2" GridPane.rowIndex="7" GridPane.valignment="TOP"/>
+            <TextField fx:id="copiesField" promptText="Physical Copies" styleClass="input"
+              GridPane.columnIndex="3" GridPane.rowIndex="7" GridPane.valignment="TOP"/>
             <columnConstraints>
               <ColumnConstraints/>
               <ColumnConstraints/>

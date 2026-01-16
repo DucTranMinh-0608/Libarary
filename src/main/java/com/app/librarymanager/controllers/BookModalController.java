@@ -81,6 +81,8 @@ public class BookModalController extends ControllerWithLoader {
   @FXML
   private CheckBox isActiveCheckBox;
   @FXML
+  private TextField copiesField;
+  @FXML
   private ImageView thumbnailPreview;
   @FXML
   private Button generateIdButton;
@@ -110,8 +112,9 @@ public class BookModalController extends ControllerWithLoader {
     DatePickerUtil.setDatePickerFormat(publishedDateField);
     DatePickerUtil.disableEditor(publishedDateField);
     initNumberField(pageCountField);
-    initNumberField(priceField);
+     initNumberField(priceField);
     initNumberField(discountPriceField);
+    initNumberField(copiesField);
     Bounds boundsInScreen = searchGoogleBooksField.localToScreen(
         searchGoogleBooksField.getBoundsInLocal());
     if (boundsInScreen != null) {
@@ -186,6 +189,16 @@ public class BookModalController extends ControllerWithLoader {
         
         generateIdButton.setDisable(true);
         searchGoogleBooksContainer.setVisible(false); // Hide search when editing or synced
+
+        Task<Integer> copiesTask = new Task<>() {
+          @Override
+          protected Integer call() {
+            Document copyDoc = BookCopiesController.findCopy(new BookCopies(book.getId()));
+            return copyDoc != null ? copyDoc.getInteger("copies") : 0;
+          }
+        };
+        copiesTask.setOnSucceeded(e -> copiesField.setText(String.valueOf(copiesTask.getValue())));
+        new Thread(copiesTask).start();
       });
     } else {
       isEditMode = false;
@@ -246,7 +259,21 @@ public class BookModalController extends ControllerWithLoader {
       book.setDiscountPrice(Double.parseDouble(discountPriceField.getText()));
       book.setActivated(isActiveCheckBox.isSelected());
 
-      // Book copies management removed as per requirement
+      // Handle copies separately as it's a different collection
+      int physicalCopies = Integer.parseInt(copiesField.getText().isEmpty() ? "0" : copiesField.getText());
+      Task<Void> saveCopiesTask = new Task<>() {
+        @Override
+        protected Void call() {
+          BookCopies copiesEntry = new BookCopies(book.getId(), physicalCopies);
+          if (BookCopiesController.findCopy(copiesEntry) != null) {
+            BookCopiesController.editCopy(copiesEntry);
+          } else {
+            BookCopiesController.addCopy(copiesEntry);
+          }
+          return null;
+        }
+      };
+      new Thread(saveCopiesTask).start();
     } catch (Exception e) {
       AlertDialog.showAlert("error", "Error", e.getMessage(), null);
       return;

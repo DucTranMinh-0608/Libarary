@@ -9,7 +9,7 @@
   fx:controller="com.app.librarymanager.controllers.HomeController">
   <VBox spacing="20">
     <Label fx:id="welcomeLabel" text="Welcome to Library Manager" styleClass="title-text"/>
-    <ScrollPane fx:id="homeScrollPane" hbarPolicy="NEVER" fitToWidth="true">
+    <ScrollPane fx:id="homeScrollPane" hbarPolicy="NEVER" vbarPolicy="ALWAYS" fitToWidth="true">
       <VBox spacing="20">
         <VBox spacing="10" fx:id="favoriteBooksContainer">
           <HBox>

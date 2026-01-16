@@ -19,6 +19,10 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
+import javafx.animation.PauseTransition;
+import javafx.util.Duration;
 import com.app.librarymanager.models.BookLoan;
 
 public class ManageBookLoansController extends ControllerWithLoader {
@@ -50,6 +54,8 @@ public class ManageBookLoansController extends ControllerWithLoader {
   @FXML
   private TableColumn<BookLoanUser, Boolean> validColumn;
   @FXML
+  private TableColumn<BookLoanUser, String> typeColumn;
+  @FXML
   private TableColumn<BookLoanUser, String> createdAtColumn;
   @FXML
   private TableColumn<BookLoanUser, String> lastUpdatedColumn;
@@ -62,6 +68,15 @@ public class ManageBookLoansController extends ControllerWithLoader {
 
   @FXML
   private TextField searchField;
+
+  @FXML
+  private VBox loadingOverlay;
+  @FXML
+  private ProgressIndicator loadingSpinner;
+  @FXML
+  private Text loadingText;
+  @FXML
+  private Button cancelButton;
 
   private ObservableList<BookLoanUser> bookLoansList = FXCollections.observableArrayList();
 
@@ -92,12 +107,15 @@ dueDateColumn.setCellValueFactory(cellData -> new SimpleStringProperty(
     DateUtil.dateToString(cellData.getValue().getBookLoan().getDueDate())));
 validColumn.setCellValueFactory(cellData -> new SimpleBooleanProperty(
     cellData.getValue().getBookLoan().isValid()));
+typeColumn.setCellValueFactory(cellData -> new SimpleStringProperty(
+    cellData.getValue().getBookLoan().getType().name()));
 createdAtColumn.setCellValueFactory(cellData -> new SimpleStringProperty(
     DateUtil.convertToStringFrom(
         (cellData.getValue().getBookLoan().get_id().toString()))));
 lastUpdatedColumn.setCellValueFactory(cellData -> new SimpleStringProperty(
     DateUtil.dateToString(cellData.getValue().getBookLoan().getLastUpdated())));
 
+    setTypeCellFactory(typeColumn);
     setImageCellFactory(bookThumbnailColumn);
 
     setImageCellFactory(userAvatarColumn);
@@ -136,13 +154,26 @@ lastUpdatedColumn.setCellValueFactory(cellData -> new SimpleStringProperty(
 
     task.setOnRunning(e -> showLoading(true));
     task.setOnSucceeded(e -> {
-      showLoading(false);
       bookLoansList = FXCollections.observableArrayList(task.getValue());
       bookLoansTable.setItems(bookLoansList);
       //  System.out.println("Book loans loaded successfully. Total: " + totalRecords);
 
       pagination.setPageCount((int) Math.ceil((double) totalRecords / pageSize));
       pagination.setCurrentPageIndex(currentPage);
+
+      // Wait for images to load before hiding loading overlay
+      // Count total images that need to be loaded
+      int totalImages = bookLoansList.size() * 2; // avatar + thumbnail per loan
+      if (totalImages == 0) {
+        showLoading(false);
+        return;
+      }
+
+      // Use PauseTransition to delay hiding the loading overlay
+      // This gives images time to load without blocking the UI thread
+      PauseTransition delay = new PauseTransition(Duration.seconds(2));
+      delay.setOnFinished(event -> showLoading(false));
+      delay.play();
     });
     task.setOnFailed(e -> {
       //  System.out.println("Error while fetching book loans: " + task.getException().getMessage());
@@ -183,6 +214,22 @@ lastUpdatedColumn.setCellValueFactory(cellData -> new SimpleStringProperty(
           setText(null);
         } else {
           setText(new Date(Long.parseLong(item)).toLocaleString());
+        }
+      }
+    });
+  }
+
+  private void setTypeCellFactory(TableColumn<BookLoanUser, String> column) {
+    column.setCellFactory(col -> new TableCell<BookLoanUser, String>() {
+      @Override
+      protected void updateItem(String item, boolean empty) {
+        super.updateItem(item, empty);
+        if (empty || item == null) {
+          setGraphic(null);
+        } else {
+          Label chip = new Label(item);
+          chip.getStyleClass().addAll("chip", item.toLowerCase());
+          setGraphic(chip);
         }
       }
     });

@@ -19,7 +19,7 @@
       </VBox>
     </FlowPane>
     <Label fx:id="searchStatus" styleClass="search-status"/>
-    <ScrollPane fx:id="categoriesScrollPane" hbarPolicy="NEVER" styleClass="scroll-pane"
+    <ScrollPane fx:id="categoriesScrollPane" hbarPolicy="NEVER" vbarPolicy="ALWAYS" styleClass="scroll-pane"
       maxWidth="Infinity">
       <FlowPane fx:id="categoriesFlowPane" styleClass="flow-pane" vgap="10" hgap="10"/>
     </ScrollPane>

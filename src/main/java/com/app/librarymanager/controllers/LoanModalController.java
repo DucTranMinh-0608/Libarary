@@ -87,13 +87,25 @@ public class LoanModalController extends ControllerWithLoader {
       @Override
       protected Document call() {
         showLoading(true);
+        BookLoan originalLoan = bookLoanUser.getBookLoan();
+        boolean wasValid = originalLoan.isValid();
+        boolean isNowValid = validField.isSelected();
+        
         BookLoan updatedBookLoan = new BookLoan(
-            bookLoanUser.getBookLoan().get_id(),
-            bookLoanUser.getBookLoan().getUserId(),
-            bookLoanUser.getBookLoan().getBookId(),
+            originalLoan.get_id(),
+            originalLoan.getUserId(),
+            originalLoan.getBookId(),
             DateUtil.localDateToDate(borrowDateField.getValue()),
-            DateUtil.localDateToDate(dueDateField.getValue()), validField.isSelected(),
-            BookLoan.Mode.ONLINE, bookLoanUser.getBookLoan().getNumCopies());
+            DateUtil.localDateToDate(dueDateField.getValue()), 
+            isNowValid,
+            originalLoan.getType(), // Preserve original type
+            originalLoan.getNumCopies());
+        
+        // If marking a physical book as returned (valid -> invalid), update stock
+        if (originalLoan.getType() == BookLoan.Mode.OFFLINE && wasValid && !isNowValid) {
+          return BookLoanController.returnBook(updatedBookLoan);
+        }
+        
         return BookLoanController.editLoan(updatedBookLoan);
       }
     };
@@ -106,7 +118,7 @@ public class LoanModalController extends ControllerWithLoader {
         return;
       } else {
         AlertDialog.showAlert("success", "Success", "Loan updated successfully", null);
-        bookLoanUser.getBookLoan().setType(BookLoan.Mode.ONLINE);
+        // Preserve the original type instead of hardcoding ONLINE
         bookLoanUser.getBookLoan()
             .setBorrowDate(DateUtil.localDateToDate(borrowDateField.getValue()));
         bookLoanUser.getBookLoan().setDueDate(DateUtil.localDateToDate(dueDateField.getValue()));

@@ -22,6 +22,10 @@
           <Label text="Filter by Validity:"/>
           <ComboBox fx:id="validityFilter" styleClass="combo-box" promptText="Filter by Validity"/>
         </VBox>
+        <VBox spacing="3">
+          <Label text="Filter by Mode:"/>
+          <ComboBox fx:id="modeFilter" styleClass="combo-box" promptText="Filter by Mode"/>
+        </VBox>
 
       </HBox>
       <Region HBox.hgrow="ALWAYS"/>
@@ -35,7 +39,7 @@
       </HBox>
     </FlowPane>
     <Label fx:id="searchStatus" styleClass="search-status"/>
-    <ScrollPane fx:id="loansScrollPane" hbarPolicy="NEVER" styleClass="scroll-pane"
+    <ScrollPane fx:id="loansScrollPane" hbarPolicy="NEVER" vbarPolicy="ALWAYS" styleClass="scroll-pane"
       maxWidth="Infinity">
       <FlowPane fx:id="loansFlowPane" styleClass="flow-pane" vgap="10" hgap="10"/>
     </ScrollPane>
