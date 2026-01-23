@@ -833,7 +833,7 @@ Button {
 .popup-container Button.danger:hover {
   -fx-background-color: -fx-error-20;
   -fx-text-fill: -fx-error;
-}
+} 
 
 .scroll-pane {
   -fx-background-color: -fx-bg;
