@@ -93,10 +93,6 @@ public class AuthController {
         AlertDialog.showAlert("error", "Invalid Credentials",
                 "Wrong email or password. Please try again.", null);
         break;
-      case "AUTH_CODE_NOT_FOUND":
-        AlertDialog.showAlert("error", "Login failed",
-                "Login cancelled or something went wrong, please try again.", null);
-        break;
       case "USER_DISABLED":
         AlertDialog.showAlert("error", "Login failed",
                 "Your account has been disabled. Please contact support.", null);
@@ -153,8 +149,6 @@ public class AuthController {
     this.refreshToken = null;
     this.isAuthenticated = false;
     this.userClaims = null;
-    //  System.out.println("User logged out.");
-    FirebaseAuthentication.stopReceiver();
     notifyAuthStateListeners();
   }
 
